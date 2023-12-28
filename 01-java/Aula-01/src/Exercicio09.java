@@ -21,7 +21,7 @@ public class Exercicio09 {
 
         if (durM < 0) {
             durM += 60;
-            durH--;
+            durH --;
         }
         if (durH < 0) {
             durH += 24;
