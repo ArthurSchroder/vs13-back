@@ -14,7 +14,7 @@ public class Exercicio03 {
                 """);
         Scanner scanner = new Scanner(System.in);
         do {
-            System.out.println("Digite o nome do jogador: ");
+            System.out.println("\nDigite o nome do jogador: ");
             jogador = scanner.next();
 
             if(!jogador.toLowerCase().equals("sair")) {
@@ -39,9 +39,10 @@ public class Exercicio03 {
                 }
                 mediaAltura = somaAltura/contador;
 
-                System.out.printf("Quantidade de Jogadores cadastrados: %d \nAltura do maior jogador: %f.2 \nJogador mais velho: %s \nJogador mais pesado: %s \nMédia de altura dos jogadores: ", contador, maiorAltura, maisVelho, maisPesado, mediaAltura);
+                System.out.printf("Quantidade de Jogadores cadastrados: %d \nAltura do maior jogador: %.2f \nJogador mais velho: %s \nJogador mais pesado: %s Kgs \nMédia de altura dos jogadores: %.2f", contador, maiorAltura, maisVelho, maisPesado, mediaAltura);
             }else{
             }
-            }while (jogador.toLowerCase().equals("sair"));
+            }while (!jogador.toLowerCase().equals("sair"));
+        System.out.printf("Cadastros finalizados com sucesso. Até a próxima! \nForam cadastrados %d novos jogadores", contador);
     }
 }
