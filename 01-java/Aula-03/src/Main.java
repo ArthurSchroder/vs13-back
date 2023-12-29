@@ -14,7 +14,11 @@ public class Main {
         ContaCorrente contaCorrente2 = new ContaCorrente();
 
         contaCorrente1.cliente = maria;
+        contaCorrente1.numeroConta= "123456-7";
+        contaCorrente1.agencia = 1234;
         contaCorrente2.cliente = joao;
+        contaCorrente2.numeroConta= "765432-1";
+        contaCorrente2.agencia = 4321;
 
         contaCorrente2.depositar(300);
 
