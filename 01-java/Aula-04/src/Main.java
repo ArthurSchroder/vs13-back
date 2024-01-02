@@ -18,7 +18,7 @@ public class Main {
         Cliente maria = new Cliente();
         maria.setNome("Maria das Dores");
         maria.setCpf("22266699965");
-        maria.getContatos() = new Contato[]{contato, contata};
+        maria.setContatos(new Contato[]{contato, contata});
         Cliente joao = new Cliente();
 
         maria.imprimirContatos();
@@ -35,11 +35,7 @@ public class Main {
 
 
 
-        contaCorrente2.depositar(300);
-
-        contaCorrente2.transeferir(contaCorrente1, 200);
-
-        contaCorrente2.imprimirContaCorrente();
-        contaCorrente1.imprimirContaCorrente();
+        contaCorrente2.imprimir();
+        contaCorrente1.imprimir();
     }
 }

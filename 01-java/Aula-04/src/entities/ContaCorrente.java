@@ -14,7 +14,17 @@ public class ContaCorrente extends Conta implements Impressao{
     }
 
     public boolean sacar(double saque){
+        if (saque > 0 && getSaldo()>= saque){
+            System.out.println("O saque pode ser realizado");
+            return true;
+        }else{
+            System.out.println("O saque não pode ser realizado");
+            return false;
+        }
+    }
 
+    public double getChequeEspecial(){
+        return chequeEspecial;
     }
 
 
