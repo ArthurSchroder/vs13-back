@@ -23,8 +23,13 @@ public class Main {
 
         maria.imprimirContatos();
 
+
         ContaCorrente contaCorrente1 = new ContaCorrente();
         ContaCorrente contaCorrente2 = new ContaCorrente();
+
+        contaCorrente1.transferir(contaCorrente2, 300);
+
+
 
         contaCorrente1.setCliente(maria);
         contaCorrente1.setNumeroConta("123456-7");
@@ -36,6 +41,7 @@ public class Main {
 
 
         contaCorrente2.imprimir();
+        System.out.println("\n-------------------------------");
         contaCorrente1.imprimir();
     }
 }

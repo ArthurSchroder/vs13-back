@@ -52,11 +52,26 @@ public class Conta implements Movimentacao{
 
     @Override
     public boolean depositar(double deposito) {
-        return false;
+        if(deposito > 0) {
+            this.setSaldo(getSaldo()+deposito);
+            System.out.println("Depósito realizado com sucesso!");
+            return true;
+        }else{
+            System.out.println("Não é possível Depositar");
+            return false;
+        }
     }
 
     @Override
-    public boolean transferir(String numConta, double valor) {
-        return false;
-    }
+    public boolean transferir(ContaCorrente conta, double valor) {
+        if(valor > 0 && this.saldo >= valor) {
+            this.saldo -= valor;
+            conta.setSaldo(getSaldo()+valor);
+            System.out.println("Saque realizado com sucesso!");
+            return true;
+        }else{
+            System.out.println("Não é possível sacar");
+            return false;
+        }
+        }
 }

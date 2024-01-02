@@ -13,6 +13,7 @@ public class Cliente {
     public void imprimirContatos(){
         for (Contato contato : contatos){
             contato.imprimirContato();
+            System.out.println("\n-----------------------------");
         }
     }
 
