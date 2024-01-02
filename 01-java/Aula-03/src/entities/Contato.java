@@ -6,6 +6,6 @@ public class Contato {
     public int tipo;
 
     public void imprimirContato(){
-        System.out.printf("Descrição: %s \nTelefone %s \nTipo de telefone: %d", descricao, telefone, tipo);
+        System.out.printf("Descrição: %s \nTelefone %s \nTipo de telefone: %d\n ------------------------------------------------\n", descricao, telefone, tipo);
     }
 }

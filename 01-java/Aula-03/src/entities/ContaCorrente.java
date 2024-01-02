@@ -9,13 +9,12 @@ public class ContaCorrente {
 
 
     public void imprimirContaCorrente(){
-        System.out.println("ContaCorrente{" +
-                "cliente=" + cliente +
-                ", numeroConta='" + numeroConta + '\'' +
-                ", agencia=" + agencia +
-                ", saldo=" + saldo +
-                ", chequeEspecial=" + chequeEspecial +
-                '}');
+        System.out.println("cliente= " + cliente.nome +
+                ", numero da Conta= '" + numeroConta + '\'' +
+                ", agencia= " + agencia +
+                ", saldo= " + saldo +
+                ", chequeEspecial= " + chequeEspecial);
+        System.out.println("-------------------------------");
     }
     public boolean sacar(double saque){
         if (saque <= retornarSaldoComChequeEspecial()){

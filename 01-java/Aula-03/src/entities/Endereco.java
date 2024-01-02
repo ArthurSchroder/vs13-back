@@ -12,6 +12,6 @@ public class Endereco {
 
 
     public void imprimirEndereco(){
-        System.out.printf("Endereço:  Tipo: %d Logradouro: %s \nNumero: %d \nComplemento:  %s \nCep:  %s \nCidade:  %s \nEstado:  %s \nPaís:  %s", tipo, logradouro, numero, complemento, cep, cidade, estado, pais);
+        System.out.printf("Endereço:  \nTipo: %d \nLogradouro: %s \nNumero: %d \nComplemento:  %s \nCep:  %s \nCidade:  %s \nEstado:  %s \nPaís:  %s\n---------------------------------------\n", tipo, logradouro, numero, complemento, cep, cidade, estado, pais);
     }
 }
