@@ -31,7 +31,7 @@ public class ContaCorrente extends Conta implements Impressao{
 
     @Override
     public void imprimir() {
-        System.out.printf("Cliente: " + getCliente() + "\nAgência:" + getAgencia() + "\nNúmero da Conta: "+ getNumeroConta() + "\nSaldo: " + getSaldo());
+        System.out.println("Cliente: " + getCliente().getNome() + "\nAgência:" + getAgencia() + "\nNúmero da Conta: "+ getNumeroConta() + "\nSaldo: " + getSaldo() + " reais" + "\n----------------------------------------------------");
     }
 }
 

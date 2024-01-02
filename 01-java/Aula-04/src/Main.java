@@ -1,5 +1,6 @@
 import entities.Cliente;
 import entities.ContaCorrente;
+import entities.ContaPoupanca;
 import entities.Contato;
 
 public class Main {
@@ -17,17 +18,33 @@ public class Main {
 
         Cliente maria = new Cliente();
         maria.setNome("Maria das Dores");
+        maria.setNome("Maria das Dores");
         maria.setCpf("22266699965");
         maria.setContatos(new Contato[]{contato, contata});
         Cliente joao = new Cliente();
+        joao.setNome("João dos Santos");
+        maria.setCpf("333777999-00");
+        joao.setContatos(new Contato[]{contato, contata});
+
+
+
 
         maria.imprimirContatos();
 
 
         ContaCorrente contaCorrente1 = new ContaCorrente();
         ContaCorrente contaCorrente2 = new ContaCorrente();
+        ContaPoupanca contaPoupanca = new ContaPoupanca();
+
+
 
         contaCorrente1.transferir(contaCorrente2, 300);
+        contaCorrente2.sacar(100);
+        contaCorrente2.depositar(150);
+        contaCorrente2.transferir(contaPoupanca, 90);
+        contaPoupanca.creditarTaxa();
+
+
 
 
 
@@ -41,7 +58,6 @@ public class Main {
 
 
         contaCorrente2.imprimir();
-        System.out.println("\n-------------------------------");
         contaCorrente1.imprimir();
     }
 }
