@@ -41,7 +41,8 @@ public class Conta implements Movimentacao{
     @Override
     public boolean sacar(double saque) {
         if (saque > 0 && this.saldo>= saque){
-            System.out.println("Saque pode ser realizado!");
+            this.setSaldo(getSaldo()-saque);
+            System.out.println("Saque realizado com sucesso!");
             return true;
         }else{
             System.out.println("Por favor, digite um valor válido para continuar");
@@ -63,7 +64,7 @@ public class Conta implements Movimentacao{
     }
 
     @Override
-    public boolean transferir(ContaCorrente conta, double valor) {
+    public boolean transferir(Conta conta, double valor) {
         if(valor > 0 && this.saldo >= valor) {
             this.saldo -= valor;
             conta.setSaldo(getSaldo()+valor);
@@ -73,5 +74,5 @@ public class Conta implements Movimentacao{
             System.out.println("Não é possível sacar");
             return false;
         }
-        }
+    }
 }
