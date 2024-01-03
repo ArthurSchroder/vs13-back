@@ -41,7 +41,7 @@ public abstract class Conta implements Movimentacao{
     @Override
     public boolean sacar(double saque) {
         if (saque > 0 && this.saldo>= saque){
-            setSaldo(getSaldo() - (saque + ContaPagamento.TAXA_SAQUE));
+            setSaldo(getSaldo() - saque);
             System.out.println("Saque realizado com sucesso!");
             return true;
         }else{
