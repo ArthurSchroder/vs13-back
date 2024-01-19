@@ -1,11 +1,28 @@
 package br.com.dbc.vemser.pessoaapi.entity;
 
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.time.LocalDate;
 
+@Validated
 public class Pessoa {
+
     private Integer idPessoa;
+    @NotNull
+    @NotBlank
     private String nome;
+
+    @NotNull
+    @Past
+    @NotBlank
     private LocalDate dataNascimento;
+
+    @NotBlank
+    @Max(11)
     private String cpf;
 
     public Pessoa() {

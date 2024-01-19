@@ -4,7 +4,6 @@ import br.com.dbc.vemser.pessoaapi.entity.Endereco;
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
 import br.com.dbc.vemser.pessoaapi.entity.TipoEndereco;
 import br.com.dbc.vemser.pessoaapi.repository.EnderecoRepository;
-import io.micrometer.common.util.StringUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 

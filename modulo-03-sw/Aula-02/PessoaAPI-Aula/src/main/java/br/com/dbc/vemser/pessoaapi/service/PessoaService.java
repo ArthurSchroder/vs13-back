@@ -2,10 +2,10 @@ package br.com.dbc.vemser.pessoaapi.service;
 
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
 import br.com.dbc.vemser.pessoaapi.repository.PessoaRepository;
-import io.micrometer.common.util.StringUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -17,12 +17,7 @@ public class PessoaService {
         this.pessoaRepository = pessoaRepository;
     }
 
-    public Pessoa create(Pessoa pessoa) throws Exception {
-        if (pessoa != null && StringUtils.isEmpty(pessoa.getNome())) {
-            throw new Exception("Nome inválido!");
-        }else if (ObjectUtils.isEmpty(pessoa.getDataNascimento())){
-            throw new Exception("Data de nascimento inválida");
-        }
+    public Pessoa create(@Valid Pessoa pessoa) throws Exception {
         return pessoaRepository.create(pessoa);
     }
 
