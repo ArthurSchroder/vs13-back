@@ -33,9 +33,8 @@ public class EnderecoRepository {
         if (ObjectUtils.isEmpty(endereco) ){
             throw new Exception("Endereco inválido!");
         }
-        endereco.setIdEndereco(COUNTER.incrementAndGet());
         endereco.setIdPessoa(idPessoa);
-        listaEnderecos.add(endereco);
+        listaEnderecos.add(COUNTER.incrementAndGet(), endereco);
         return endereco;
     }
     public List<Endereco> enderecos() {

@@ -1,10 +1,24 @@
 package br.com.dbc.vemser.pessoaapi.entity;
 
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+@Validated
 public class Contato {
     private Integer idContato;
+    @NotNull
+    @NotEmpty
     private Integer idPessoa;
+    @NotNull
+    @NotEmpty
     private TipoContato tipoContato;
+    @NotNull @Max(13)
     private String numero;
+    @NotEmpty
+    @NotNull
     private String descricao;
 
     public Contato() {

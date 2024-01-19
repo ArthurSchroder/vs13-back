@@ -5,6 +5,8 @@ import br.com.dbc.vemser.pessoaapi.entity.Contato;
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
 import br.com.dbc.vemser.pessoaapi.entity.TipoContato;
 import br.com.dbc.vemser.pessoaapi.repository.ContatoRepository;
+import br.com.dbc.vemser.pessoaapi.repository.PessoaRepository;
+import org.springframework.expression.ExpressionException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,19 +15,29 @@ import java.util.stream.Collectors;
 @Service
 public class ContatoService {
     private final ContatoRepository contatoRepository;
+    private final PessoaRepository pessoaRepository;
 
-    public ContatoService(ContatoRepository contatoRepository){
+    public ContatoService(ContatoRepository contatoRepository, PessoaRepository pessoaRepository){
         this.contatoRepository = contatoRepository;
+        this.pessoaRepository = pessoaRepository;
     }
 
-    public Contato create(ContatoDTO contato){
+    public Contato create(ContatoDTO contato) throws Exception {
         Contato contatoSalvar = new Contato();
 
+        contatoSalvar.setIdPessoa(getPessoa(contato.getIdPessoa()));
         contatoSalvar.setTipoContato(TipoContato.ofTipo(contato.getTipoContato()));
-        contatoSalvar.setIdPessoa(contato.getIdPessoa());
         contatoSalvar.setNumero(contato.getNumero());
         contatoSalvar.setDescricao(contato.getDescricao());
         return contatoRepository.create(contatoSalvar);
+    }
+
+    private Integer getPessoa(Integer idPessoa) throws Exception {
+        Pessoa pessoaId = pessoaRepository.list().stream()
+                .filter(pessoa -> pessoa.getIdPessoa().equals(idPessoa))
+                .findFirst()
+                .orElseThrow(() -> new Exception("Id de pessoa inválido"));
+        return pessoaId.getIdPessoa();
     }
 
     public List<Contato> getContatos(){
@@ -38,7 +50,7 @@ public class ContatoService {
                               ContatoDTO contatoAtualizar) throws Exception {
         Contato contatoRecuperada = getContato(id);
 
-        contatoRecuperada.setIdPessoa(contatoAtualizar.getIdPessoa());
+        contatoRecuperada.setIdPessoa(getPessoa(contatoAtualizar.getIdPessoa()));
         contatoRecuperada.setTipoContato(TipoContato.ofTipo(contatoAtualizar.getTipoContato()));
         contatoRecuperada.setNumero(contatoAtualizar.getNumero());
         contatoRecuperada.setDescricao(contatoAtualizar.getDescricao());

@@ -34,8 +34,8 @@ public class ContatoRepository {
         return listaContatos;
     }
 
-    public void delete(Contato pessoa) {
-        listaContatos.remove(pessoa);
+    public void delete(Contato contato) {
+        listaContatos.remove(contato);
     }
 
     public List<Contato> listByPessoa(Integer idPessoa) {
