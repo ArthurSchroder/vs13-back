@@ -37,10 +37,10 @@ import java.util.List;
 
         @PostMapping // POST localhost:8080/endereco
         public ResponseEntity<EnderecoDTO> create(@Valid @RequestBody EnderecoDTOS endereco) throws Exception {
-            log.debug("Criando endereco");
+            log.debug("Criando endereço");
 
-            EnderecoDTO enderecoCriado = EnderecoService.create (endereco);
-            log.debug("Pessoa endereco!");
+            EnderecoDTO enderecoCriado = enderecoService.create(endereco);
+            log.debug("Endereço criado!");
 
             //return ResponseEntity.ok(pessoaService.create(pessoa));
             return new ResponseEntity<>(enderecoCriado, HttpStatus.OK);
