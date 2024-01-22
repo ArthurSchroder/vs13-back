@@ -2,29 +2,24 @@ package br.com.dbc.vemser.pessoaapi.entity;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDate;
+
 @Validated
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-
-public class Contato {
-    private Integer idContato;
+public class PessoaDTOS {private Integer idPessoa;
+    @NotBlank
+    private String nome;
+    @Past
     @NotNull
+    private LocalDate dataNascimento;
     @NotBlank
-    private Integer idPessoa;
-    @NonNull
-    @NotBlank
-    private TipoContato tipoContato;
-    @NotBlank
-    private String numero;
-    @NotBlank
-    private String descricao;
-
-
+    private String cpf;
 }

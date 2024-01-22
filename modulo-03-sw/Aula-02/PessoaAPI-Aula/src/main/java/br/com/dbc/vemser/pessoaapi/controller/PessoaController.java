@@ -1,20 +1,27 @@
 package br.com.dbc.vemser.pessoaapi.controller;
 
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
+import br.com.dbc.vemser.pessoaapi.entity.PessoaDTO;
+import br.com.dbc.vemser.pessoaapi.entity.PessoaDTOS;
 import br.com.dbc.vemser.pessoaapi.service.PessoaService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
+@Validated
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/pessoa") // localhost:8080/pessoa
+@Slf4j
 public class PessoaController {
 
-    private final PessoaService pessoaService;
-
-    public PessoaController(PessoaService pessoaService) {
-        this.pessoaService = pessoaService;
-    }
+    private PessoaService pessoaService;
 
     @GetMapping("/hello") // GET localhost:8080/pessoa/hello
     public String hello() {
@@ -42,8 +49,14 @@ public class PessoaController {
 //    }
 
     @PostMapping // POST localhost:8080/pessoa
-    public Pessoa create(@RequestBody Pessoa pessoa) throws Exception{
-        return pessoaService.create(pessoa);
+    public ResponseEntity<PessoaDTO> create(@Valid @RequestBody PessoaDTOS pessoa) throws Exception {
+        log.debug("Criando pessoa");
+
+        PessoaDTO pessoaCriada = pessoaService.create(pessoa);
+        log.debug("Pessoa criada!");
+
+        //return ResponseEntity.ok(pessoaService.create(pessoa));
+        return new ResponseEntity<>(pessoaCriada, HttpStatus.OK);
     }
 
     @PutMapping("/{idPessoa}") // PUT localhost:8080/pessoa/1000

@@ -12,19 +12,17 @@ import org.springframework.validation.annotation.Validated;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+public class ContatoDTO {
 
-public class Contato {
     private Integer idContato;
     @NotNull
     @NotBlank
     private Integer idPessoa;
-    @NonNull
+    @NotNull
     @NotBlank
-    private TipoContato tipoContato;
+    private Integer tipoContato;
     @NotBlank
     private String numero;
     @NotBlank
     private String descricao;
-
-
 }

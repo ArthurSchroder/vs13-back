@@ -1,35 +1,35 @@
 package br.com.dbc.vemser.pessoaapi.service;
 
-import br.com.dbc.vemser.pessoaapi.controller.dto.ContatoDTO;
-import br.com.dbc.vemser.pessoaapi.entity.Contato;
-import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
-import br.com.dbc.vemser.pessoaapi.entity.TipoContato;
+import br.com.dbc.vemser.pessoaapi.entity.*;
 import br.com.dbc.vemser.pessoaapi.repository.ContatoRepository;
 import br.com.dbc.vemser.pessoaapi.repository.PessoaRepository;
-import org.springframework.expression.ExpressionException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@RequiredArgsConstructor
 @Service
+@Slf4j
+
 public class ContatoService {
     private final ContatoRepository contatoRepository;
     private final PessoaRepository pessoaRepository;
+    ObjectMapper objectMapper = new ObjectMapper();
 
-    public ContatoService(ContatoRepository contatoRepository, PessoaRepository pessoaRepository){
-        this.contatoRepository = contatoRepository;
-        this.pessoaRepository = pessoaRepository;
-    }
+    public ContatoDTO create (ContatoDTOS contatoDTOS) throws Exception {
+        log.debug("Criando contato ");
 
-    public Contato create(ContatoDTO contato) throws Exception {
-        Contato contatoSalvar = new Contato();
 
-        contatoSalvar.setIdPessoa(getPessoa(contato.getIdPessoa()));
-        contatoSalvar.setTipoContato(TipoContato.ofTipo(contato.getTipoContato()));
-        contatoSalvar.setNumero(contato.getNumero());
-        contatoSalvar.setDescricao(contato.getDescricao());
-        return contatoRepository.create(contatoSalvar);
+        Contato contatoEntity = objectMapper.convertValue(contatoDTOS, Contato.class);
+
+        contatoEntity = contatoRepository.create(contatoEntity);
+
+        ContatoDTO contatoDTO = objectMapper.convertValue(contatoEntity, ContatoDTO.class);
+
+        return contatoDTO;
     }
 
     private Integer getPessoa(Integer idPessoa) throws Exception {

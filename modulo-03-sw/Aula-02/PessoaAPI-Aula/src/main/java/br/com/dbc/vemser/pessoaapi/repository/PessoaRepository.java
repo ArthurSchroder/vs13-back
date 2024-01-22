@@ -1,6 +1,7 @@
 package br.com.dbc.vemser.pessoaapi.repository;
 
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
+import lombok.Data;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;

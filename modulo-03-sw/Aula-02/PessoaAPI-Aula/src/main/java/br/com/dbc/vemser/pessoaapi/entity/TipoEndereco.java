@@ -1,5 +1,4 @@
 package br.com.dbc.vemser.pessoaapi.entity;
-
 import java.util.Arrays;
 
 public enum TipoEndereco {

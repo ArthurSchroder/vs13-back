@@ -6,12 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-
-@Validated
 @AllArgsConstructor
 @NoArgsConstructor
+@Validated
 @Data
-public class Endereco {
+public class EnderecoDTO {
     private Integer idEndereco;
     @NotBlank
     @NotNull

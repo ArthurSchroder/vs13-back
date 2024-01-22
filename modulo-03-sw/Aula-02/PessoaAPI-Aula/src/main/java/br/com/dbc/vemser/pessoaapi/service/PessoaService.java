@@ -1,24 +1,36 @@
 package br.com.dbc.vemser.pessoaapi.service;
 
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
+import br.com.dbc.vemser.pessoaapi.entity.PessoaDTO;
+import br.com.dbc.vemser.pessoaapi.entity.PessoaDTOS;
 import br.com.dbc.vemser.pessoaapi.repository.PessoaRepository;
-import org.apache.commons.lang3.ObjectUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
+@Slf4j
 public class PessoaService {
 
-    private final PessoaRepository pessoaRepository;
+    private PessoaRepository pessoaRepository;
+    private final ObjectMapper objectMapper;
 
-    public PessoaService(PessoaRepository pessoaRepository){
-        this.pessoaRepository = pessoaRepository;
-    }
+    public PessoaDTO create(PessoaDTOS pessoaDTOS) throws Exception {
+        log.debug("Criando pessoa ");
 
-    public Pessoa create(@Valid Pessoa pessoa) throws Exception {
-        return pessoaRepository.create(pessoa);
+        // Validacoes manuais
+
+        Pessoa pessoaEntity = objectMapper.convertValue(pessoaDTOS, Pessoa.class);
+
+        pessoaEntity = pessoaRepository.create(pessoaEntity);
+
+        PessoaDTO pessoaDTO = objectMapper.convertValue(pessoaEntity, PessoaDTO.class);
+
+        return pessoaDTO;
     }
 
     public List<Pessoa> list(){

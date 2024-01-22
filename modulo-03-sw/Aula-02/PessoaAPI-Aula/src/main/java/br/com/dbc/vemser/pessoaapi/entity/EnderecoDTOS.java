@@ -11,7 +11,7 @@ import org.springframework.validation.annotation.Validated;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Endereco {
+public class EnderecoDTOS {
     private Integer idEndereco;
     @NotBlank
     @NotNull
