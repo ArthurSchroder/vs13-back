@@ -4,6 +4,7 @@ import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
 import br.com.dbc.vemser.pessoaapi.entity.PessoaDTO;
 import br.com.dbc.vemser.pessoaapi.entity.PessoaDTOS;
 import br.com.dbc.vemser.pessoaapi.service.PessoaService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Validated
+@AllArgsConstructor
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/pessoa") // localhost:8080/pessoa
@@ -60,8 +62,8 @@ public class PessoaController {
     }
 
     @PutMapping("/{idPessoa}") // PUT localhost:8080/pessoa/1000
-    public Pessoa update(@PathVariable("idPessoa") Integer id,
-                         @RequestBody Pessoa pessoaAtualizar) throws Exception {
+    public PessoaDTOS update(@PathVariable("idPessoa") Integer id,
+                         @RequestBody PessoaDTO pessoaAtualizar) throws Exception {
         return pessoaService.update(id, pessoaAtualizar);
     }
 

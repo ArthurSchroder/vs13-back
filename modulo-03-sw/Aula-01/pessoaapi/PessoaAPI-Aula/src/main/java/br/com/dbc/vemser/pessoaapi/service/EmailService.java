@@ -1,5 +1,7 @@
 package br.com.dbc.vemser.pessoaapi.service;
 
+import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
+import br.com.dbc.vemser.pessoaapi.entity.PessoaDTO;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +30,7 @@ public class EmailService {
 
     @Value("${spring.mail.username}")
     private String from;
-    private String to = "rafael.lazzari@dbccompany.com.br";
+    private String to = "arthur.mota@dbccompany.com.br";
 
     private final JavaMailSender emailSender;
 
@@ -73,7 +75,9 @@ public class EmailService {
         emailSender.send(message);
     }
 
-    public void sendEmail() throws Exception {
+
+
+    public void sendEmail(String assunto, String corpo, String nomePessoa) throws Exception {
         MimeMessage mimeMessage = emailSender.createMimeMessage();
         try {
 
@@ -81,8 +85,8 @@ public class EmailService {
 
             mimeMessageHelper.setFrom(from);
             mimeMessageHelper.setTo(to);
-            mimeMessageHelper.setSubject("Endereço criado");
-            mimeMessageHelper.setText(geContentFromTemplate(), true);
+            mimeMessageHelper.setSubject(assunto);
+            mimeMessageHelper.setText(geContentFromTemplate(nomePessoa, corpo), true);
 
             emailSender.send(mimeMessageHelper.getMimeMessage());
         } catch (MessagingException | IOException | TemplateException e) {
@@ -91,9 +95,10 @@ public class EmailService {
         }
     }
 
-    public String geContentFromTemplate() throws IOException, TemplateException {
+    public String geContentFromTemplate(String nome, String texto) throws IOException, TemplateException {
         Map<String, Object> dados = new HashMap<>();
-        dados.put("nome", "");
+        dados.put("nome", nome);
+        dados.put("texto", texto);
 
         Template template = fmConfiguration.getTemplate("email-template.ftl");
         String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, dados);

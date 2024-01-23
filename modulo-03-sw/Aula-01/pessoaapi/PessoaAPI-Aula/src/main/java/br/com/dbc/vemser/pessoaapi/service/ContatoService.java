@@ -1,6 +1,5 @@
 package br.com.dbc.vemser.pessoaapi.service;
 
-import br.com.dbc.vemser.pessoaapi.Exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.entity.*;
 import br.com.dbc.vemser.pessoaapi.repository.ContatoRepository;
 import br.com.dbc.vemser.pessoaapi.repository.PessoaRepository;
@@ -9,9 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 @Slf4j
@@ -64,8 +62,8 @@ public class ContatoService {
 
     public void delete(Integer id) throws Exception {
         ContatoDTO contatoRecuperada = getContato(id);
-        objectMapper.convertValue(contatoRecuperada, Contato.class);
-        contatoRepository.delete(contatoRecuperada);
+        Contato contatoCriado = objectMapper.convertValue(contatoRecuperada, Contato.class);
+        contatoRepository.delete(contatoCriado);
     }
 
     private ContatoDTO getContato(Integer id) throws Exception {

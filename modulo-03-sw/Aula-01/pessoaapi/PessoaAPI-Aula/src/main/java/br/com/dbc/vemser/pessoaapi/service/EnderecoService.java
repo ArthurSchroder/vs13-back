@@ -1,12 +1,12 @@
 package br.com.dbc.vemser.pessoaapi.service;
 
+import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.entity.*;
 import br.com.dbc.vemser.pessoaapi.repository.EnderecoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 public class EnderecoService {
 
     private final EnderecoRepository enderecoRepository;
+    private final EmailService emailService;
+    private final PessoaService pessoaService;
     ObjectMapper objectMapper = new ObjectMapper();
 
     public EnderecoDTO create(EnderecoDTOS enderecoDTOS) throws Exception {
@@ -35,25 +37,29 @@ public class EnderecoService {
         return enderecoDTO;
     }
 
-    public EnderecoDTO createByPessoa(Integer idPessoa,@NotBlank EnderecoDTOS enderecoDTOS) throws Exception {
+    public EnderecoDTOS createByPessoa(Integer idPessoa,@NotBlank EnderecoDTOS enderecoDTOS) throws Exception {
         Endereco enderecoEntity = objectMapper.convertValue(enderecoDTOS, Endereco.class);
 
         enderecoEntity = enderecoRepository.createByPessoa(idPessoa, enderecoEntity);
 
-        EnderecoDTO enderecoDTO = objectMapper.convertValue(enderecoEntity, EnderecoDTO.class);
+        EnderecoDTOS endereco = objectMapper.convertValue(enderecoEntity, EnderecoDTOS.class);
 
-        return enderecoDTO;
+        Pessoa pessoa = pessoaService.getPessoa(enderecoEntity.getIdPessoa());
+        String corpo = "Seu endereço foi criado: " + enderecoEntity;
+        emailService.sendEmail("Endereço criado",corpo , pessoa.getNome());
+
+        return endereco;
     }
 
-    public List<EnderecoDTO> enderecos(){
+    public List<EnderecoDTOS> listarTodosEnderecos(){
         return enderecoRepository.enderecos().stream()
-                .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
+                .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTOS.class))
                 .toList();
     }
 
-    public Endereco update(Integer id, Endereco enderecoAtualizar) throws Exception {
-        Endereco enderecoRecuperado = getEndereco(id);
+    public EnderecoDTOS update(Integer id, EnderecoDTO enderecoAtualizar) throws Exception {
 
+        Endereco enderecoRecuperado = getEndereco(id);
         enderecoRecuperado.setIdPessoa(enderecoAtualizar.getIdPessoa());
         enderecoRecuperado.setTipo(enderecoAtualizar.getTipo());
         enderecoRecuperado.setLogradouro(enderecoAtualizar.getLogradouro());
@@ -64,13 +70,18 @@ public class EnderecoService {
         enderecoRecuperado.setEstado(enderecoAtualizar.getEstado());
         enderecoRecuperado.setPais(enderecoAtualizar.getPais());
 
-        return enderecoRecuperado;
+        Pessoa pessoa = pessoaService.getPessoa(enderecoRecuperado.getIdPessoa());
+        String corpo = "Seu endereço foi atualizado: " + enderecoRecuperado;
+        emailService.sendEmail("Endereço atualizado",corpo , pessoa.getNome());
+
+        return objectMapper.convertValue(enderecoRecuperado, EnderecoDTOS.class);
     }
 
     public void delete(Integer id) throws Exception {
-        EnderecoDTO enderecoRecuperado = getEndereco(id);
-        objectMapper.convertValue(enderecoRecuperado, Endereco.class);
-        enderecoRepository.delete(enderecoRecuperado);
+        Endereco endereco = getEndereco(id);
+        enderecoRepository.delete(endereco);
+        Pessoa pessoa = pessoaService.getPessoa(endereco.getIdPessoa());
+        emailService.sendEmail("Endereço deletado", "Seu endereço foi deletado", pessoa.getNome());
     }
 
     public List<EnderecoDTO> listByPessoa (Integer id){
@@ -79,11 +90,14 @@ public class EnderecoService {
                 .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class)).collect(Collectors.toList());
     }
 
-    public EnderecoDTO getEndereco(Integer id) throws Exception {
+    public EnderecoDTOS getEnderecoById(Integer id) throws RegraDeNegocioException {
+        return objectMapper.convertValue(getEndereco(id), EnderecoDTOS.class);
+    }
+
+    public Endereco getEndereco(Integer id) throws RegraDeNegocioException {
         return enderecoRepository.enderecos().stream()
                 .filter(endereco -> endereco.getIdEndereco().equals(id))
-                .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
                 .findFirst()
-                .orElseThrow(() -> new Exception("Id inválido"));
+                .orElseThrow(() -> new RegraDeNegocioException("Id inválido"));
     }
     }

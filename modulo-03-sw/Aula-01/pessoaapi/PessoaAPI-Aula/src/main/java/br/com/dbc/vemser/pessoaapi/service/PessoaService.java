@@ -1,25 +1,27 @@
 package br.com.dbc.vemser.pessoaapi.service;
 
-import br.com.dbc.vemser.pessoaapi.entity.ContatoDTO;
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
 import br.com.dbc.vemser.pessoaapi.entity.PessoaDTO;
 import br.com.dbc.vemser.pessoaapi.entity.PessoaDTOS;
 import br.com.dbc.vemser.pessoaapi.repository.PessoaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Service
 @Slf4j
+@AllArgsConstructor
 public class PessoaService {
 
+
     private PessoaRepository pessoaRepository;
-    private final ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
     public PessoaDTO create(PessoaDTOS pessoaDTOS) throws Exception {
         log.debug("Criando pessoa ");
@@ -41,15 +43,14 @@ public class PessoaService {
                 .toList();
     }
 
-    public Pessoa update(Integer id,
-                         Pessoa pessoaAtualizar) throws Exception {
+    public PessoaDTOS update(Integer id, PessoaDTO pessoaAtualizar) throws Exception {
         Pessoa pessoaRecuperada = getPessoa(id);
 
         pessoaRecuperada.setCpf(pessoaAtualizar.getCpf());
         pessoaRecuperada.setNome(pessoaAtualizar.getNome());
         pessoaRecuperada.setDataNascimento(pessoaAtualizar.getDataNascimento());
 
-        return pessoaRecuperada;
+        return objectMapper.convertValue(pessoaRecuperada, PessoaDTOS.class);
     }
 
     public void delete(Integer id) throws Exception {
@@ -63,10 +64,9 @@ public class PessoaService {
                     .map(pessoa -> objectMapper.convertValue(pessoa, PessoaDTO.class)).toList();
     }
 
-    private PessoaDTO getPessoa(Integer idPessoa) throws Exception {
+    public Pessoa getPessoa(Integer idPessoa) throws Exception {
         return pessoaRepository.list().stream()
                 .filter(pessoa -> pessoa.getIdPessoa().equals(idPessoa))
-                .map(pessoa -> objectMapper.convertValue(pessoa, PessoaDTO.class))
                 .findFirst()
                 .orElseThrow(() -> new Exception("Id inválido"));
     }
