@@ -7,6 +7,7 @@ import br.com.dbc.vemser.pessoaapi.entity.dto.PessoaDTO;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.service.PessoaService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -16,13 +17,13 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Validated
-@AllArgsConstructor
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/pessoa") // localhost:8080/pessoa
 @Slf4j
 public class PessoaController implements IPessoaControllerDoc{
 
-    private PessoaService pessoaService;
+    private final PessoaService pessoaService;
 
     @GetMapping // GET localhost:8080/pessoa
     public ResponseEntity<List<PessoaDTO>> list() {
