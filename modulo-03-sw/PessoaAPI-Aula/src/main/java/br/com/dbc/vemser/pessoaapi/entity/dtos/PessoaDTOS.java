@@ -1,8 +1,7 @@
 package br.com.dbc.vemser.pessoaapi.entity.dtos;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,14 +13,22 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PessoaDTOS {private Integer idPessoa;
-    @NotBlank
+public class PessoaDTOS {
+    private Integer idPessoa;
+    @Schema(description = "Nome da Pessoa", required = true, example = "Rafael Lazzari")
+    @NotBlank(message = "O nome não pode ser vazio")
+    @Pattern(regexp = "^[a-zA-Z ]*$")
     private String nome;
     @Past
-    @NotNull
+    @Schema(description = "Data de nascimento da pessoa", required = true, example = "1999-02-26")
+    @NotNull(message = "A data não pode ser vazia")
     private LocalDate dataNascimento;
-    @NotBlank
+    @NotBlank(message = "O CPF não pode ser vazio")
+    @Size(min = 11, max = 11)
+    @Schema(description = "CPF da pessoa", required = true, example = "06624789558")
+    @Pattern(regexp = "\\d+")
     private String cpf;
     @NotBlank
+    @Schema(description = "Email da pessoa", required = true, example = "teste123@dbccompany.com.br")
     private String email;
 }
