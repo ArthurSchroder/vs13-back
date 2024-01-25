@@ -1,9 +1,9 @@
 package br.com.dbc.vemser.pessoaapi.controller;
 
 import br.com.dbc.vemser.pessoaapi.controller.document.IEnderecoControllerDoc;
-import br.com.dbc.vemser.pessoaapi.entity.dtos.EnderecoDTOS;
-import br.com.dbc.vemser.pessoaapi.entity.dto.EnderecoDTO;
-import br.com.dbc.vemser.pessoaapi.entity.dto.GenericResponseDTO;
+import br.com.dbc.vemser.pessoaapi.createDto.EnderecoCreateDTO;
+import br.com.dbc.vemser.pessoaapi.dto.EnderecoDTO;
+import br.com.dbc.vemser.pessoaapi.dto.GenericResponseDTO;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.service.EnderecoService;
 import lombok.AllArgsConstructor;
@@ -23,14 +23,14 @@ public class EnderecoController implements IEnderecoControllerDoc {
     private final EnderecoService enderecoService;
 
     @GetMapping // GET localhost:8080/endereco
-    public ResponseEntity<List<EnderecoDTOS>> enderecos() {
+    public ResponseEntity<List<EnderecoCreateDTO>> enderecos() {
         return ResponseEntity.ok(enderecoService.listarTodosEnderecos());
     }
 
     @GetMapping("/{id-endereco}") // GET localhost:8080/endereco
     public ResponseEntity<Object> enderecoById(@PathVariable("id-endereco") Integer idEndereco) {
         try {
-            EnderecoDTOS enderecoById = enderecoService.getEnderecoById(idEndereco);
+            EnderecoCreateDTO enderecoById = enderecoService.getEnderecoById(idEndereco);
             log.debug("Endereço recuperado");
             return ResponseEntity.ok(enderecoById);
         }catch (RegraDeNegocioException e){
@@ -46,21 +46,20 @@ public class EnderecoController implements IEnderecoControllerDoc {
     }
 
     @PostMapping // POST localhost:8080/endereco
-    public ResponseEntity<EnderecoDTO> create(@Valid @RequestBody EnderecoDTOS endereco) throws Exception {
+    public ResponseEntity<EnderecoCreateDTO> create(@Valid @RequestBody EnderecoDTO endereco) throws Exception {
         log.debug("Criando endereço");
-
-        EnderecoDTO enderecoCriado = enderecoService.create(endereco);
+    
+        EnderecoCreateDTO enderecoCriado = enderecoService.create(endereco);
         log.debug("Endereço criado!");
 
-        //return ResponseEntity.ok(pessoaService.create(pessoa));
         return new ResponseEntity<>(enderecoCriado, HttpStatus.OK);
     }
 
     @PostMapping("/{idPessoa}") // PUT localhost:8080/endereco/{idPessoa}
     public ResponseEntity<Object> createByPessoa(@PathVariable("idPessoa") Integer id,
-                                                 @RequestBody EnderecoDTOS endereco) throws Exception {
+                                                 @RequestBody EnderecoCreateDTO endereco) throws Exception {
         try {
-            EnderecoDTOS createByPessoa = enderecoService.createByPessoa(id, endereco);
+            EnderecoCreateDTO createByPessoa = enderecoService.createByPessoa(id, endereco);
             log.debug("Endereços por pesssoa recuperados");
             return ResponseEntity.ok(createByPessoa);
         }catch (RegraDeNegocioException e){
@@ -72,13 +71,12 @@ public class EnderecoController implements IEnderecoControllerDoc {
     public ResponseEntity<Object> update(@PathVariable("idEndereco") Integer id,
                                          @RequestBody EnderecoDTO enderecoAtualizar) throws Exception {
         try {
-            EnderecoDTOS enderecoAtualizado = enderecoService.update(id, enderecoAtualizar);
+            EnderecoCreateDTO enderecoAtualizado = enderecoService.update(id, enderecoAtualizar);
             log.debug("Endereço atualizado");
             return ResponseEntity.ok(enderecoAtualizado);
         }catch (RegraDeNegocioException e){
             return ResponseEntity.badRequest().body(new GenericResponseDTO(e.getMessage()));
         }
-
     }
 
     @DeleteMapping("/{idEndereco}") // DELETE localhost:8080/endereco/{idEndereco}

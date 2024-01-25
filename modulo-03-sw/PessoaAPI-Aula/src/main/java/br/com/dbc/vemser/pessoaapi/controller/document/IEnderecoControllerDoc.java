@@ -1,7 +1,7 @@
 package br.com.dbc.vemser.pessoaapi.controller.document;
-import br.com.dbc.vemser.pessoaapi.entity.dto.EnderecoDTO;
-import br.com.dbc.vemser.pessoaapi.entity.dto.GenericResponseDTO;
-import br.com.dbc.vemser.pessoaapi.entity.dtos.EnderecoDTOS;
+import br.com.dbc.vemser.pessoaapi.dto.EnderecoDTO;
+import br.com.dbc.vemser.pessoaapi.dto.GenericResponseDTO;
+import br.com.dbc.vemser.pessoaapi.createDto.EnderecoCreateDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -20,7 +20,7 @@ public interface IEnderecoControllerDoc {
             }
     )
     @GetMapping
-    ResponseEntity<List<EnderecoDTOS>> enderecos();
+    ResponseEntity<List<EnderecoCreateDTO>> enderecos();
 
 
     @Operation(summary = "Listar endereços pelo id", description = "Lista o endereço com id correspondente no banco")
@@ -57,7 +57,7 @@ public interface IEnderecoControllerDoc {
             }
     )
     @PostMapping // POST localhost:8080/endereco
-     ResponseEntity<EnderecoDTO> create(@Valid @RequestBody EnderecoDTOS endereco) throws Exception;
+     ResponseEntity<EnderecoCreateDTO> create(@Valid @RequestBody EnderecoDTO endereco) throws Exception;
 
 
 
@@ -70,7 +70,7 @@ public interface IEnderecoControllerDoc {
             }
     )
     @PostMapping("/{idPessoa}") // PUT localhost:8080/endereco/{idPessoa}
-     ResponseEntity<Object> createByPessoa(@PathVariable("idPessoa") Integer id, @RequestBody EnderecoDTOS endereco) throws Exception;
+     ResponseEntity<Object> createByPessoa(@PathVariable("idPessoa") Integer id, @RequestBody EnderecoCreateDTO endereco) throws Exception;
 
 
 

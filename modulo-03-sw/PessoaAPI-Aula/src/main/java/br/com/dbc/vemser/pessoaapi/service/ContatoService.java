@@ -1,8 +1,8 @@
 package br.com.dbc.vemser.pessoaapi.service;
 
 import br.com.dbc.vemser.pessoaapi.entity.*;
-import br.com.dbc.vemser.pessoaapi.entity.dtos.ContatoDTOS;
-import br.com.dbc.vemser.pessoaapi.entity.dto.ContatoDTO;
+import br.com.dbc.vemser.pessoaapi.createDto.ContatoCreateDTO;
+import br.com.dbc.vemser.pessoaapi.dto.ContatoDTO;
 import br.com.dbc.vemser.pessoaapi.repository.ContatoRepository;
 import br.com.dbc.vemser.pessoaapi.repository.PessoaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,11 +21,11 @@ public class ContatoService {
     private final PessoaRepository pessoaRepository;
     ObjectMapper objectMapper = new ObjectMapper();
 
-    public ContatoDTO create (ContatoDTOS contatoDTOS) throws Exception {
+    public ContatoDTO create (ContatoCreateDTO contatoCreateDTO) throws Exception {
         log.debug("Criando contato ");
 
 
-        Contato contatoEntity = objectMapper.convertValue(contatoDTOS, Contato.class);
+        Contato contatoEntity = objectMapper.convertValue(contatoCreateDTO, Contato.class);
 
         contatoEntity = contatoRepository.create(contatoEntity);
 
@@ -42,16 +42,16 @@ public class ContatoService {
         return pessoaId.getIdPessoa();
     }
 
-    public List<ContatoDTOS> getContatos(){
+    public List<ContatoCreateDTO> getContatos(){
         return contatoRepository.contatos().stream()
-                .map(contato -> objectMapper.convertValue(contato, ContatoDTOS.class))
+                .map(contato -> objectMapper.convertValue(contato, ContatoCreateDTO.class))
                 .toList();
     }
 
 
     //Integer idContato, Integer idPessoa, TipoContato tipoContato, String numero, String descricao
-    public ContatoDTOS atualizar (Integer id,
-                              ContatoDTO contatoAtualizar) throws Exception {
+    public ContatoCreateDTO atualizar (Integer id,
+                                       ContatoDTO contatoAtualizar) throws Exception {
         ContatoDTO contatoRecuperada = getContato(id);
 
         contatoRecuperada.setIdPessoa(getPessoa(contatoAtualizar.getIdPessoa()));
@@ -59,7 +59,7 @@ public class ContatoService {
         contatoRecuperada.setNumero(contatoAtualizar.getNumero());
         contatoRecuperada.setDescricao(contatoAtualizar.getDescricao());
 
-        return objectMapper.convertValue(contatoRecuperada, ContatoDTOS.class);
+        return objectMapper.convertValue(contatoRecuperada, ContatoCreateDTO.class);
     }
 
     public void delete(Integer id) throws Exception {

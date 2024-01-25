@@ -1,8 +1,8 @@
 package br.com.dbc.vemser.pessoaapi.service;
 
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
-import br.com.dbc.vemser.pessoaapi.entity.dto.PessoaDTO;
-import br.com.dbc.vemser.pessoaapi.entity.dtos.PessoaDTOS;
+import br.com.dbc.vemser.pessoaapi.dto.PessoaDTO;
+import br.com.dbc.vemser.pessoaapi.createDto.PessoaCreateDTO;
 import br.com.dbc.vemser.pessoaapi.repository.PessoaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ public class PessoaService {
     private PessoaRepository pessoaRepository;
     private ObjectMapper objectMapper;
 
-    public PessoaDTOS create(PessoaDTO pessoaDTO) throws Exception {
+    public PessoaCreateDTO create(PessoaDTO pessoaDTO) throws Exception {
         log.debug("Criando pessoa ");
 
         // Validacoes manuais
@@ -30,37 +30,37 @@ public class PessoaService {
 
         pessoaEntity = pessoaRepository.create(pessoaEntity);
 
-        PessoaDTOS pessoaDTOS = objectMapper.convertValue(pessoaEntity, PessoaDTOS.class);
+        PessoaCreateDTO pessoaCreateDTO = objectMapper.convertValue(pessoaEntity, PessoaCreateDTO.class);
 
-        return pessoaDTOS;
+        return pessoaCreateDTO;
     }
 
-    public List<PessoaDTO> list(){
+    public List<PessoaCreateDTO> list(){
         return pessoaRepository.list().stream()
-                .map(pessoa -> objectMapper.convertValue(pessoa, PessoaDTO.class))
+                .map(pessoa -> objectMapper.convertValue(pessoa, PessoaCreateDTO.class))
                 .toList();
     }
 
-    public List<PessoaDTOS> listAll(){
+    public List<PessoaCreateDTO> listAll(){
         return pessoaRepository.list().stream()
-                .map(pessoa -> objectMapper.convertValue(pessoa, PessoaDTOS.class))
+                .map(pessoa -> objectMapper.convertValue(pessoa, PessoaCreateDTO.class))
                 .toList();
     }
 
-    public List<PessoaDTO> listByPessoa (String nome){
+    public List<PessoaCreateDTO> listByPessoa (String nome){
         return pessoaRepository.listByName(nome).stream()
                 .filter(pessoa -> pessoa.getNome().equals(nome))
-                .map(pessoa -> objectMapper.convertValue(pessoa, PessoaDTO.class)).collect(Collectors.toList());
+                .map(pessoa -> objectMapper.convertValue(pessoa, PessoaCreateDTO.class)).collect(Collectors.toList());
     }
 
-    public PessoaDTOS update(Integer id, PessoaDTO pessoaAtualizar) throws Exception {
+    public PessoaCreateDTO update(Integer id, PessoaDTO pessoaAtualizar) throws Exception {
         Pessoa pessoaRecuperada = getPessoa(id);
 
         pessoaRecuperada.setCpf(pessoaAtualizar.getCpf());
         pessoaRecuperada.setNome(pessoaAtualizar.getNome());
         pessoaRecuperada.setDataNascimento(pessoaAtualizar.getDataNascimento());
 
-        return objectMapper.convertValue(pessoaRecuperada, PessoaDTOS.class);
+        return objectMapper.convertValue(pessoaRecuperada, PessoaCreateDTO.class);
     }
 
     public void delete(Integer id) throws Exception {

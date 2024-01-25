@@ -1,7 +1,7 @@
 package br.com.dbc.vemser.pessoaapi.service;
 
-import br.com.dbc.vemser.pessoaapi.entity.dtos.EnderecoDTOS;
-import br.com.dbc.vemser.pessoaapi.entity.dto.EnderecoDTO;
+import br.com.dbc.vemser.pessoaapi.createDto.EnderecoCreateDTO;
+import br.com.dbc.vemser.pessoaapi.dto.EnderecoDTO;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.entity.*;
 import br.com.dbc.vemser.pessoaapi.repository.EnderecoRepository;
@@ -24,27 +24,27 @@ public class EnderecoService {
     private final PessoaService pessoaService;
     ObjectMapper objectMapper = new ObjectMapper();
 
-    public EnderecoDTO create(EnderecoDTOS enderecoDTOS) throws Exception {
+    public EnderecoCreateDTO create(EnderecoDTO enderecoDTO) throws Exception {
         log.debug("Criando endereco ");
 
 
-        Endereco enderecoEntity = objectMapper.convertValue(enderecoDTOS, Endereco.class);
+        Endereco enderecoEntity = objectMapper.convertValue(enderecoDTO, Endereco.class);
 
         enderecoEntity = enderecoRepository.create(enderecoEntity);
 
-        EnderecoDTO enderecoDTO = objectMapper.convertValue(enderecoEntity, EnderecoDTO.class);
+        EnderecoCreateDTO enderecoCriado = objectMapper.convertValue(enderecoEntity, EnderecoCreateDTO.class);
 
 
 
-        return enderecoDTO;
+        return enderecoCriado;
     }
 
-    public EnderecoDTOS createByPessoa(Integer idPessoa,@NotBlank EnderecoDTOS enderecoDTOS) throws Exception {
-        Endereco enderecoEntity = objectMapper.convertValue(enderecoDTOS, Endereco.class);
+    public EnderecoCreateDTO createByPessoa(Integer idPessoa, @NotBlank EnderecoCreateDTO enderecoCreateDTO) throws Exception {
+        Endereco enderecoEntity = objectMapper.convertValue(enderecoCreateDTO, Endereco.class);
 
         enderecoEntity = enderecoRepository.createByPessoa(idPessoa, enderecoEntity);
 
-        EnderecoDTOS endereco = objectMapper.convertValue(enderecoEntity, EnderecoDTOS.class);
+        EnderecoCreateDTO endereco = objectMapper.convertValue(enderecoEntity, EnderecoCreateDTO.class);
 
         Pessoa pessoa = pessoaService.getPessoa(enderecoEntity.getIdPessoa());
         String corpo = "Seu endereço foi criado: " + enderecoEntity;
@@ -53,13 +53,13 @@ public class EnderecoService {
         return endereco;
     }
 
-    public List<EnderecoDTOS> listarTodosEnderecos(){
+    public List<EnderecoCreateDTO> listarTodosEnderecos(){
         return enderecoRepository.enderecos().stream()
-                .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTOS.class))
+                .map(endereco -> objectMapper.convertValue(endereco, EnderecoCreateDTO.class))
                 .toList();
     }
 
-    public EnderecoDTOS update(Integer id, EnderecoDTO enderecoAtualizar) throws Exception {
+    public EnderecoCreateDTO update(Integer id, EnderecoDTO enderecoAtualizar) throws Exception {
 
         Endereco enderecoRecuperado = getEndereco(id);
         enderecoRecuperado.setIdPessoa(enderecoAtualizar.getIdPessoa());
@@ -76,7 +76,7 @@ public class EnderecoService {
         String corpo = "Seu endereço foi atualizado: " + enderecoRecuperado;
         emailService.sendEmail("Endereço atualizado",corpo , pessoa.getNome());
 
-        return objectMapper.convertValue(enderecoRecuperado, EnderecoDTOS.class);
+        return objectMapper.convertValue(enderecoRecuperado, EnderecoCreateDTO.class);
     }
 
     public void delete(Integer id) throws Exception {
@@ -92,8 +92,8 @@ public class EnderecoService {
                 .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class)).collect(Collectors.toList());
     }
 
-    public EnderecoDTOS getEnderecoById(Integer id) throws RegraDeNegocioException {
-        return objectMapper.convertValue(getEndereco(id), EnderecoDTOS.class);
+    public EnderecoCreateDTO getEnderecoById(Integer id) throws RegraDeNegocioException {
+        return objectMapper.convertValue(getEndereco(id), EnderecoCreateDTO.class);
     }
 
     public Endereco getEndereco(Integer id) throws RegraDeNegocioException {

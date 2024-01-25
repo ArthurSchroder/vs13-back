@@ -1,7 +1,7 @@
 package br.com.dbc.vemser.pessoaapi.controller.document;
-import br.com.dbc.vemser.pessoaapi.entity.dto.ContatoDTO;
-import br.com.dbc.vemser.pessoaapi.entity.dto.GenericResponseDTO;
-import br.com.dbc.vemser.pessoaapi.entity.dtos.ContatoDTOS;
+import br.com.dbc.vemser.pessoaapi.dto.ContatoDTO;
+import br.com.dbc.vemser.pessoaapi.dto.GenericResponseDTO;
+import br.com.dbc.vemser.pessoaapi.createDto.ContatoCreateDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -21,7 +21,7 @@ public interface IContatoControllerDoc {
             }
     )
     @GetMapping
-    ResponseEntity<List<ContatoDTOS>> contatos();
+    ResponseEntity<List<ContatoCreateDTO>> contatos();
 
 
 
@@ -47,7 +47,7 @@ public interface IContatoControllerDoc {
             }
     )
     @PostMapping // POST localhost:8080/endereco
-    public ResponseEntity<ContatoDTO> create(@Valid @RequestBody ContatoDTOS contato) throws Exception;
+    public ResponseEntity<ContatoDTO> create(@Valid @RequestBody ContatoCreateDTO contato) throws Exception;
 
 
 

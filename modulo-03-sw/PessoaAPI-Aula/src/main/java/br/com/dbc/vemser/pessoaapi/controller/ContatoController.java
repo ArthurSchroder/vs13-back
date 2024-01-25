@@ -1,9 +1,9 @@
 package br.com.dbc.vemser.pessoaapi.controller;
 
 import br.com.dbc.vemser.pessoaapi.controller.document.IContatoControllerDoc;
-import br.com.dbc.vemser.pessoaapi.entity.dtos.ContatoDTOS;
-import br.com.dbc.vemser.pessoaapi.entity.dto.ContatoDTO;
-import br.com.dbc.vemser.pessoaapi.entity.dto.GenericResponseDTO;
+import br.com.dbc.vemser.pessoaapi.createDto.ContatoCreateDTO;
+import br.com.dbc.vemser.pessoaapi.dto.ContatoDTO;
+import br.com.dbc.vemser.pessoaapi.dto.GenericResponseDTO;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.service.ContatoService;
 import jakarta.validation.Valid;
@@ -25,7 +25,7 @@ public class ContatoController implements IContatoControllerDoc {
     private final ContatoService contatoService;
 
     @GetMapping()//localhost:8080/contato
-    public ResponseEntity<List<ContatoDTOS>> contatos(){
+    public ResponseEntity<List<ContatoCreateDTO>> contatos(){
         log.debug("Listando contatos");
         return ResponseEntity.ok(contatoService.getContatos());
     }
@@ -37,7 +37,7 @@ public class ContatoController implements IContatoControllerDoc {
     }
 
     @PostMapping // POST localhost:8080/endereco
-    public ResponseEntity<ContatoDTO> create(@Valid @RequestBody ContatoDTOS contato) throws Exception {
+    public ResponseEntity<ContatoDTO> create(@Valid @RequestBody ContatoCreateDTO contato) throws Exception {
         log.debug("Criando contato");
 
         ContatoDTO contatoCriado = contatoService.create (contato);
@@ -51,7 +51,7 @@ public class ContatoController implements IContatoControllerDoc {
     public ResponseEntity<Object> atualizar (@PathVariable("idContato") Integer id,
                               @Valid @RequestBody ContatoDTO contatoAtualizar) throws Exception {
         try {
-            ContatoDTOS contatoAtualizado = contatoService.atualizar(id, contatoAtualizar);
+            ContatoCreateDTO contatoAtualizado = contatoService.atualizar(id, contatoAtualizar);
             log.debug("Contato atualizado");
             return ResponseEntity.ok(contatoAtualizado);
         }catch (RegraDeNegocioException e){

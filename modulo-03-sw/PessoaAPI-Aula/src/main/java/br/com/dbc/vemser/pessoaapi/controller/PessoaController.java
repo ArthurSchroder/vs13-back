@@ -1,12 +1,11 @@
 package br.com.dbc.vemser.pessoaapi.controller;
 
 import br.com.dbc.vemser.pessoaapi.controller.document.IPessoaControllerDoc;
-import br.com.dbc.vemser.pessoaapi.entity.dtos.PessoaDTOS;
-import br.com.dbc.vemser.pessoaapi.entity.dto.GenericResponseDTO;
-import br.com.dbc.vemser.pessoaapi.entity.dto.PessoaDTO;
+import br.com.dbc.vemser.pessoaapi.createDto.PessoaCreateDTO;
+import br.com.dbc.vemser.pessoaapi.dto.GenericResponseDTO;
+import br.com.dbc.vemser.pessoaapi.dto.PessoaDTO;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.service.PessoaService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,22 +25,22 @@ public class PessoaController implements IPessoaControllerDoc{
     private final PessoaService pessoaService;
 
     @GetMapping // GET localhost:8080/pessoa
-    public ResponseEntity<List<PessoaDTO>> list() {
+    public ResponseEntity<List<PessoaCreateDTO>> list() {
         return ResponseEntity.ok(pessoaService.list());
     }
 
     @GetMapping("/byname/{nome}") // GET localhost:8080/pessoa/byname/Fulano
-    public ResponseEntity<List<PessoaDTO>> listByName(@PathVariable("nome") String nome) {
-        List<PessoaDTO> pessoaByName = pessoaService.listByPessoa(nome);
+    public ResponseEntity<List<PessoaCreateDTO>> listByName(@PathVariable("nome") String nome) {
+        List<PessoaCreateDTO> pessoaByName = pessoaService.listByPessoa(nome);
         log.debug("Busando pessoa por nome");
         return ResponseEntity.ok(pessoaByName);
     }
 
     @PostMapping // POST localhost:8080/pessoa
-    public ResponseEntity<PessoaDTOS> create(@Valid @RequestBody PessoaDTO pessoa) throws Exception {
+    public ResponseEntity<PessoaCreateDTO> create(@Valid @RequestBody PessoaDTO pessoa) throws Exception {
         log.debug("Criando pessoa");
 
-        PessoaDTOS pessoaCriada = pessoaService.create(pessoa);
+        PessoaCreateDTO pessoaCriada = pessoaService.create(pessoa);
         log.debug("Pessoa criada!");
 
         return ResponseEntity.ok(pessoaCriada);
@@ -51,7 +50,7 @@ public class PessoaController implements IPessoaControllerDoc{
     public ResponseEntity<Object> update(@PathVariable("idPessoa") Integer id,
                          @RequestBody PessoaDTO pessoaAtualizar) throws Exception {
         try {
-            PessoaDTOS pessoaAtualizada = pessoaService.update(id, pessoaAtualizar);
+            PessoaCreateDTO pessoaAtualizada = pessoaService.update(id, pessoaAtualizar);
             log.debug("Pessoa atualizada");
             return ResponseEntity.ok(pessoaAtualizada);
         }catch (RegraDeNegocioException e){

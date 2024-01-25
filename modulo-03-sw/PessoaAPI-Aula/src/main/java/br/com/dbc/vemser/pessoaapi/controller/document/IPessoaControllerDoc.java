@@ -1,7 +1,7 @@
 package br.com.dbc.vemser.pessoaapi.controller.document;
 
-import br.com.dbc.vemser.pessoaapi.entity.dto.PessoaDTO;
-import br.com.dbc.vemser.pessoaapi.entity.dtos.PessoaDTOS;
+import br.com.dbc.vemser.pessoaapi.dto.PessoaDTO;
+import br.com.dbc.vemser.pessoaapi.createDto.PessoaCreateDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-public interface IPessoaControllerDoc {
+ public interface IPessoaControllerDoc {
     @Operation(summary = "Listar pessoas", description = "Lista todas as pessoas do banco")
     @ApiResponses(
             value = {
@@ -21,7 +21,7 @@ public interface IPessoaControllerDoc {
             }
     )
     @GetMapping
-    ResponseEntity<List<PessoaDTO>> list();
+    ResponseEntity<List<PessoaCreateDTO>> list();
 
 
     @Operation(summary = "Listar pessoas pelo nome", description = "Lista todas as pessoas com o mesmo nome no banco")
@@ -33,7 +33,7 @@ public interface IPessoaControllerDoc {
             }
     )
     @GetMapping("/byname/{nome}")
-    public ResponseEntity<List<PessoaDTO>> listByName(@PathVariable("nome") String nome);
+     ResponseEntity<List<PessoaCreateDTO>> listByName(@PathVariable("nome") String nome);
 
 
 
@@ -46,7 +46,7 @@ public interface IPessoaControllerDoc {
             }
     )
     @PostMapping // POST localhost:8080/pessoa
-    public ResponseEntity<PessoaDTOS> create(@Valid @RequestBody PessoaDTO pessoa) throws Exception;
+     ResponseEntity<PessoaCreateDTO> create(@Valid @RequestBody PessoaDTO pessoa) throws Exception;
 
 
 
@@ -59,7 +59,7 @@ public interface IPessoaControllerDoc {
             }
     )
     @PutMapping("/{idPessoa}") // PUT localhost:8080/pessoa/1000
-    public ResponseEntity<Object> update(@PathVariable("idPessoa") Integer id, @RequestBody PessoaDTO pessoaAtualizar) throws Exception;
+     ResponseEntity<Object> update(@PathVariable("idPessoa") Integer id, @RequestBody PessoaDTO pessoaAtualizar) throws Exception;
 
 
 
@@ -71,5 +71,5 @@ public interface IPessoaControllerDoc {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )@DeleteMapping("/{idPessoa}") // DELETE localhost:8080/pessoa/10
-    public ResponseEntity<Object> delete(@PathVariable("idPessoa") Integer id) throws Exception;
+     ResponseEntity<Object> delete(@PathVariable("idPessoa") Integer id) throws Exception;
 }
