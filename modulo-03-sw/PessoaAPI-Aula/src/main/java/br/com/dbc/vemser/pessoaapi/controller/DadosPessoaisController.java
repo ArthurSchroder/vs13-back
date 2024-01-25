@@ -1,5 +1,6 @@
 package br.com.dbc.vemser.pessoaapi.controller;
 
+import br.com.dbc.vemser.pessoaapi.controller.document.IDadosPessoaisController;
 import br.com.dbc.vemser.pessoaapi.dto.DadosPessoaisDTO;
 import br.com.dbc.vemser.pessoaapi.dto.GenericResponseDTO;
 import br.com.dbc.vemser.pessoaapi.service.DadosPessoaisService;
@@ -18,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 @RequestMapping("/dados-pessoais")
-public class DadosPessoaisController {
+public class DadosPessoaisController implements IDadosPessoaisController {
 
     private final DadosPessoaisService dadosPessoaisService;
 
