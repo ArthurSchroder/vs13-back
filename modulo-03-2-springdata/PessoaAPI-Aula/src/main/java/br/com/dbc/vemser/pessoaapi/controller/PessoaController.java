@@ -4,6 +4,7 @@ import br.com.dbc.vemser.pessoaapi.controller.document.IPessoaControllerDoc;
 import br.com.dbc.vemser.pessoaapi.createDto.PessoaCreateDTO;
 import br.com.dbc.vemser.pessoaapi.dto.GenericResponseDTO;
 import br.com.dbc.vemser.pessoaapi.dto.PessoaDTO;
+import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.service.PessoaService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 
 @Validated
@@ -34,6 +36,20 @@ public class PessoaController implements IPessoaControllerDoc{
         List<PessoaCreateDTO> pessoaByName = pessoaService.listByPessoa(nome);
         log.debug("Busando pessoa por nome");
         return ResponseEntity.ok(pessoaByName);
+    }
+
+    @GetMapping("/by-cpf/{cpf}")
+    public ResponseEntity<List<PessoaCreateDTO>> listByCpf(@PathVariable("cpf") String cpf){
+        List<PessoaCreateDTO> pessoaByCpf = pessoaService.listByCpf(cpf);
+        log.debug("Localizando pessoa por CPF");
+        return ResponseEntity.ok(pessoaByCpf);
+    }
+
+    @GetMapping("/by-nascimento")
+    public ResponseEntity<List<PessoaCreateDTO>> listByBirthday(@RequestBody LocalDate dataStart, LocalDate dataEnd){
+        List<PessoaCreateDTO> pessoaByBday = pessoaService.listByBirthday(dataStart, dataEnd);
+        log.debug("Buscando pessoas por data de nascimento");
+        return ResponseEntity.ok(pessoaByBday);
     }
 
     @PostMapping // POST localhost:8080/pessoa

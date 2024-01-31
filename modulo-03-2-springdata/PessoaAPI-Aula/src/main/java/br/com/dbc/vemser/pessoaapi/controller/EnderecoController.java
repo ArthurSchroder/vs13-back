@@ -38,12 +38,12 @@ public class EnderecoController implements IEnderecoControllerDoc {
         }
     }
 
-    @GetMapping("/bypessoa/{id-pessoa}") // GET localhost:8080/endereco/bypessoa/{id-pessoa}
-    public ResponseEntity<List<EnderecoDTO>> listByPessoa(@PathVariable("id-pessoa") Integer id) {
-        List<EnderecoDTO> enderecoByIdPessoa = enderecoService.listByPessoa(id);
-        log.debug("Endereços por pesssoa recuperados");
-        return ResponseEntity.ok(enderecoByIdPessoa);
-    }
+//    @GetMapping("/bypessoa/{id-pessoa}") // GET localhost:8080/endereco/bypessoa/{id-pessoa}
+//    public ResponseEntity<List<EnderecoDTO>> listByPessoa(@PathVariable("id-pessoa") Integer id) {
+//        List<EnderecoDTO> enderecoByIdPessoa = enderecoService.listByPessoa(id);
+//        log.debug("Endereços por pesssoa recuperados");
+//        return ResponseEntity.ok(enderecoByIdPessoa);
+//    }
 
     @PostMapping // POST localhost:8080/endereco
     public ResponseEntity<EnderecoCreateDTO> create(@Valid @RequestBody EnderecoDTO endereco) throws Exception {
@@ -55,17 +55,17 @@ public class EnderecoController implements IEnderecoControllerDoc {
         return new ResponseEntity<>(enderecoCriado, HttpStatus.OK);
     }
 
-    @PostMapping("/{idPessoa}") // PUT localhost:8080/endereco/{idPessoa}
-    public ResponseEntity<Object> createByPessoa(@PathVariable("idPessoa") Integer id,
-                                                 @RequestBody EnderecoCreateDTO endereco) throws Exception {
-        try {
-            EnderecoCreateDTO createByPessoa = enderecoService.createByPessoa(id, endereco);
-            log.debug("Endereços por pesssoa recuperados");
-            return ResponseEntity.ok(createByPessoa);
-        }catch (RegraDeNegocioException e){
-            return ResponseEntity.badRequest().body(new GenericResponseDTO(e.getMessage()));
-        }
-    }
+//    @PostMapping("/{idPessoa}") // PUT localhost:8080/endereco/{idPessoa}
+//    public ResponseEntity<Object> createByPessoa(@PathVariable("idPessoa") Integer id,
+//                                                 @RequestBody EnderecoCreateDTO endereco) throws Exception {
+//        try {
+//            EnderecoCreateDTO createByPessoa = enderecoService.createByPessoa(id, endereco);
+//            log.debug("Endereços por pesssoa recuperados");
+//            return ResponseEntity.ok(createByPessoa);
+//        }catch (RegraDeNegocioException e){
+//            return ResponseEntity.badRequest().body(new GenericResponseDTO(e.getMessage()));
+//        }
+//    }
 
     @PutMapping("/{idEndereco}") // PUT localhost:8080/endereco/{idEndereco}
     public ResponseEntity<Object> update(@PathVariable("idEndereco") Integer id,

@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,9 +49,19 @@ public class PessoaService {
     }
 
     public List<PessoaCreateDTO> listByPessoa (String nome){
-        return pessoaRepository.findAll().stream()
+        return pessoaRepository.findAllByNomeContainingIgnoreCase(nome).stream()
                 .filter(pessoa -> pessoa.getNome().equals(nome))
                 .map(pessoa -> objectMapper.convertValue(pessoa, PessoaCreateDTO.class)).collect(Collectors.toList());
+    }
+
+    public List<PessoaCreateDTO> listByCpf(String cpf){
+        return pessoaRepository.findAllByCpfContainingIgnoreCase(cpf)
+                .stream().map(pessoa -> objectMapper.convertValue(pessoa, PessoaCreateDTO.class)).toList();
+    }
+
+    public List<PessoaCreateDTO> listByBirthday(LocalDate dateStart, LocalDate dateEnd){
+        return pessoaRepository.findAllByDataNascimentoIsBetween(dateStart, dateEnd)
+                .stream().map(pessoa -> objectMapper.convertValue(pessoa, PessoaCreateDTO.class)).toList();
     }
 
     public PessoaCreateDTO update(Integer id, PessoaDTO pessoaAtualizar) throws Exception {
