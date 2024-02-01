@@ -3,10 +3,13 @@ package br.com.dbc.vemser.pessoaapi.controller;
 import br.com.dbc.vemser.pessoaapi.controller.document.IPessoaControllerDoc;
 import br.com.dbc.vemser.pessoaapi.createDto.PessoaCreateDTO;
 import br.com.dbc.vemser.pessoaapi.dto.*;
+import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.service.PessoaService;
+import feign.Param;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Validated
@@ -25,6 +29,8 @@ public class PessoaController implements IPessoaControllerDoc{
 
     private final PessoaService pessoaService;
 
+
+
     @GetMapping // GET localhost:8080/pessoa
     public ResponseEntity<List<PessoaCreateDTO>> list() {
         return ResponseEntity.ok(pessoaService.list());
@@ -35,6 +41,20 @@ public class PessoaController implements IPessoaControllerDoc{
         List<PessoaCreateDTO> pessoaByName = pessoaService.listByPessoa(nome);
         log.debug("Busando pessoa por nome");
         return ResponseEntity.ok(pessoaByName);
+    }
+
+    @GetMapping("/listar-todos-os-dados")
+    public ResponseEntity<List<PessoaCreateDTO>>listAllData(@RequestParam Optional<Integer> idPessoa){
+        List<PessoaCreateDTO>pessoaCompleto = pessoaService.listDadosCompletos(idPessoa.get());
+        log.debug("Listando dados completos da pessoa");
+        return ResponseEntity.ok(pessoaCompleto);
+    }
+
+    @GetMapping("/relatorio")
+    public ResponseEntity <List<PessoaCreateDTO>> relatorio(){
+        List<PessoaCreateDTO> relatorio = pessoaService.relatorio();
+        log.debug("Gerando relatório");
+        return ResponseEntity.ok(relatorio);
     }
 
     @GetMapping("/by-cpf/{cpf}")

@@ -6,6 +6,7 @@ import br.com.dbc.vemser.pessoaapi.dto.PessoaPetDTO;
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
 import br.com.dbc.vemser.pessoaapi.dto.PessoaDTO;
 import br.com.dbc.vemser.pessoaapi.createDto.PessoaCreateDTO;
+import br.com.dbc.vemser.pessoaapi.entity.RelatorioPersonalizado;
 import br.com.dbc.vemser.pessoaapi.repository.PessoaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +25,7 @@ public class PessoaService {
 
     private PessoaRepository pessoaRepository;
     private ObjectMapper objectMapper;
+    private RelatorioPersonalizado relatorioPersonalizado;
 
     public PessoaCreateDTO create(PessoaDTO pessoaDTO) throws Exception {
         log.debug("Criando pessoa ");
@@ -40,10 +41,24 @@ public class PessoaService {
         return pessoaCreateDTO;
     }
 
+    public List<PessoaCreateDTO> listDadosCompletos(Integer id){
+        if (id!=null) {
+            return pessoaRepository.procurarPessoaPorIdCompleto(id).stream()
+                    .map(pessoa -> objectMapper.convertValue(pessoa, PessoaCreateDTO.class))
+                    .toList();
+        } else return pessoaRepository.procurarPessoaCompleto().stream()
+                .map(pessoa -> objectMapper.convertValue(pessoa, PessoaCreateDTO.class)).toList();
+    }
+
     public List<PessoaCreateDTO> list(){
         return pessoaRepository.findAll().stream()
                 .map(pessoa -> objectMapper.convertValue(pessoa, PessoaCreateDTO.class))
                 .toList();
+    }
+
+    public List<PessoaCreateDTO> relatorio(){
+        return relatorioPersonalizado.gerarRelatorioPersonalizado().stream()
+                .map(dados-> objectMapper.convertValue(dados, PessoaCreateDTO.class)).toList();
     }
 
     public List<PessoaCreateDTO> listAll(){

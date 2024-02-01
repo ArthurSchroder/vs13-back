@@ -18,11 +18,18 @@ public class Endereco {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_endereco_contato")
     @SequenceGenerator(name = "seq_endereco_contato", sequenceName = "seq_endereco_contato", allocationSize = 1)
     private Integer idEndereco;
+
     @NotBlank(message = "O id da pessoa não pode ser vazio")
     @Schema(description = "Id do responsável pelo endereço", required = true, example = "3")
     @NotNull(message = "O id da pessoa não pode ser nulo")
+    private Integer idPessoa;
+
     @JsonIgnore
-    @ManyToMany(mappedBy = "ENDERECOS")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "Pessoa_X_Pessoa_Endereco",
+            joinColumns = @JoinColumn(name = "ID_ENDERECO"),
+            inverseJoinColumns = @JoinColumn(name = "ID_PESSOA")
+    )
     private Set<Pessoa> pessoas;
 
     @NotBlank(message = "O tipo de endereço não pode ser vazio")

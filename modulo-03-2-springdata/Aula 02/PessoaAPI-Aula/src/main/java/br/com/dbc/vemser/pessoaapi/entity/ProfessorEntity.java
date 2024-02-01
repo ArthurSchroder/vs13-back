@@ -15,8 +15,10 @@ public class ProfessorEntity {
 
     @EmbeddedId
     public ProfessorPk ProfessorPK;
+
     @Column(name = "nome")
     public String nome;
+
     @Column (name = "salario")
     public Double salario;
 }
