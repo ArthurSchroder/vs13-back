@@ -1,6 +1,7 @@
 package br.com.dbc.vemser.pessoaapi.entity;
 
 import br.com.dbc.vemser.pessoaapi.entity.pk.ProfessorPk;
+import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
 import lombok.Getter;
 import lombok.Setter;
 

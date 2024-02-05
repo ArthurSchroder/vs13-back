@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -50,14 +51,16 @@ public class Pessoa {
     @Column(name = "email")
     private String email;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "Pessoa_X_Pessoa_Endereco",
             joinColumns = @JoinColumn(name = "ID_PESSOA"),
             inverseJoinColumns = @JoinColumn(name = "id_endereco")
     )
-    private Set<Endereco> enderecos;
+    private List<Endereco> listaDeEnderecos;
 
-    @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToOne (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_PET", referencedColumnName = "ID_PET")
     private Pet pet;
 

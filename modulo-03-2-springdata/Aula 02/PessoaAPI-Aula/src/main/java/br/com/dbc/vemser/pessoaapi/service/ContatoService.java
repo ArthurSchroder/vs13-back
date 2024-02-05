@@ -77,7 +77,7 @@ public class ContatoService {
 
     public List<ContatoDTO> getContatosByPessoa (Integer idPessoa) {
         return contatoRepository.findAll().stream()
-                .filter(contato -> contato.getIdPessoa().equals(idPessoa))
+                .filter(contato -> contato.getPessoa().getIdPessoa().equals(idPessoa))
                 .map(contato -> objectMapper.convertValue(contato, ContatoDTO.class))
                 .toList();
     }

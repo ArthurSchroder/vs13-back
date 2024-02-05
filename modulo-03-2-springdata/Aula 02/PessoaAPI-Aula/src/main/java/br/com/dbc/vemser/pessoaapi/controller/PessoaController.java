@@ -3,13 +3,11 @@ package br.com.dbc.vemser.pessoaapi.controller;
 import br.com.dbc.vemser.pessoaapi.controller.document.IPessoaControllerDoc;
 import br.com.dbc.vemser.pessoaapi.createDto.PessoaCreateDTO;
 import br.com.dbc.vemser.pessoaapi.dto.*;
-import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
+import br.com.dbc.vemser.pessoaapi.entity.RelatorioPersonalizadoProj;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.service.PessoaService;
-import feign.Param;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Validated
 @RestController
@@ -44,15 +40,21 @@ public class PessoaController implements IPessoaControllerDoc{
     }
 
     @GetMapping("/listar-todos-os-dados")
-    public ResponseEntity<List<PessoaCreateDTO>>listAllData(@RequestParam Optional<Integer> idPessoa){
-        List<PessoaCreateDTO>pessoaCompleto = pessoaService.listDadosCompletos(idPessoa.get());
-        log.debug("Listando dados completos da pessoa");
-        return ResponseEntity.ok(pessoaCompleto);
+    public ResponseEntity<List<PessoaCreateDTO>>listAllData(@RequestParam(value = "idPessoa", required = false) Integer idPessoa){
+        if (idPessoa!=null){
+            List<PessoaCreateDTO>pessoaCompleto = pessoaService.listDadosCompletos(idPessoa);
+            log.debug("Listando dados completos da pessoa");
+            return ResponseEntity.ok(pessoaCompleto);
+        }else {
+            List<PessoaCreateDTO> pessoaCompleto = pessoaService.listDadosCompletos(null);
+            log.debug("Listando dados completos da pessoa");
+            return ResponseEntity.ok(pessoaCompleto);
+        }
     }
 
     @GetMapping("/relatorio")
-    public ResponseEntity <List<PessoaCreateDTO>> relatorio(){
-        List<PessoaCreateDTO> relatorio = pessoaService.relatorio();
+    public ResponseEntity <List<RelatorioPersonalizadoProj>> relatorio(@RequestParam (value = "idPessoa", required = false) Integer idPessoa){
+        List<RelatorioPersonalizadoProj> relatorio = pessoaService.relatorio(idPessoa);
         log.debug("Gerando relatório");
         return ResponseEntity.ok(relatorio);
     }

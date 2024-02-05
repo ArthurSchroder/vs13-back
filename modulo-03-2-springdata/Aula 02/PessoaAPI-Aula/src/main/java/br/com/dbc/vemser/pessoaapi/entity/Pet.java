@@ -14,6 +14,7 @@ public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_pet")
     @SequenceGenerator(name = "seq_pet", sequenceName = "seq_pet", allocationSize = 1)
+    @Schema(description = "Id do pet", example = "2")
     @Column(name = "ID_PET")
     private Integer idPet;
 
@@ -22,12 +23,12 @@ public class Pet {
     private Integer idPessoa;
 
     @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @Schema ()
     @JoinColumn(name = "ID_PESSOA", referencedColumnName = "ID_PESSOA")
-    private Pessoa Pessoa;
+    @Schema(description = "Id do pet", example = "2")
+    private Pessoa pessoa;
 
     @Column (name = "NOME")
-    private String Nome;
+    private String nome;
 
     @Column (name = "TIPO")
     @Enumerated(EnumType.ORDINAL)

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,8 +31,10 @@ public class Contato {
     @Schema(description = "Id do responsável pelo contato", required = true, example = "2")
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
+    @Pattern(regexp = "\\d+")
     @JoinColumn(name = "ID_PESSOA", referencedColumnName = "ID_PESSOA")
-    private Pessoa idPessoa;
+    private Pessoa pessoa;
+
 
     @NotNull
     @NotBlank(message = "O tipo de contato não pode ser vazio")

@@ -6,7 +6,7 @@ import br.com.dbc.vemser.pessoaapi.dto.PessoaPetDTO;
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
 import br.com.dbc.vemser.pessoaapi.dto.PessoaDTO;
 import br.com.dbc.vemser.pessoaapi.createDto.PessoaCreateDTO;
-import br.com.dbc.vemser.pessoaapi.entity.RelatorioPersonalizado;
+import br.com.dbc.vemser.pessoaapi.entity.RelatorioPersonalizadoProj;
 import br.com.dbc.vemser.pessoaapi.repository.PessoaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -25,7 +25,6 @@ public class PessoaService {
 
     private PessoaRepository pessoaRepository;
     private ObjectMapper objectMapper;
-    private RelatorioPersonalizado relatorioPersonalizado;
 
     public PessoaCreateDTO create(PessoaDTO pessoaDTO) throws Exception {
         log.debug("Criando pessoa ");
@@ -56,9 +55,11 @@ public class PessoaService {
                 .toList();
     }
 
-    public List<PessoaCreateDTO> relatorio(){
-        return relatorioPersonalizado.gerarRelatorioPersonalizado().stream()
-                .map(dados-> objectMapper.convertValue(dados, PessoaCreateDTO.class)).toList();
+    public List<RelatorioPersonalizadoProj> relatorio(Integer idPessoa){
+        if (idPessoa != null) {
+            return pessoaRepository.relatorio(idPessoa);
+        }
+        return pessoaRepository.relatorio();
     }
 
     public List<PessoaCreateDTO> listAll(){

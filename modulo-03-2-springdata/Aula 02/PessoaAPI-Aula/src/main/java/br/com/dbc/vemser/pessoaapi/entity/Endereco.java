@@ -22,6 +22,7 @@ public class Endereco {
     @NotBlank(message = "O id da pessoa não pode ser vazio")
     @Schema(description = "Id do responsável pelo endereço", required = true, example = "3")
     @NotNull(message = "O id da pessoa não pode ser nulo")
+    @Column(name = "ID_PESSOA")
     private Integer idPessoa;
 
     @JsonIgnore
