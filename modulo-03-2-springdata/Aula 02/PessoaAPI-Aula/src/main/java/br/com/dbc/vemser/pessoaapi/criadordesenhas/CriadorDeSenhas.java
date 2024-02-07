@@ -11,8 +11,7 @@ public class CriadorDeSenhas {
         // $2a$10$LMNeJo9gpeZ2mMO5BO2fGem8LWlYGIZuqsFEmg4uT09NbCly6ojq2
         // $2a$10$PjfEN2AgepvCUJe7qVnxEedrLKZV0OoIvx4X20YiiG4kxV9CAHxt2
 
-        String minhaSenhaCript = "$2a$10$nnghszDagt0u59ELJGR6IOAiewNlsPKWxs2787JEQyQda7XVHlWy.";
-        boolean matches = bCryptPasswordEncoder.matches("1503", minhaSenhaCript);
+        boolean matches = bCryptPasswordEncoder.matches("1503", senha);
         System.out.println(matches);
         //true ou false
     }
