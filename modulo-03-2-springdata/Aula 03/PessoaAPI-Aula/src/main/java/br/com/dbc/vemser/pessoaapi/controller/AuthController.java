@@ -1,14 +1,15 @@
 package br.com.dbc.vemser.pessoaapi.controller;
 
-import br.com.dbc.vemser.pessoaapi.createDto.ContatoCreateDTO;
+import br.com.dbc.vemser.pessoaapi.createDto.UsuarioCreateDTO;
+import br.com.dbc.vemser.pessoaapi.dto.ContatoDTO;
 import br.com.dbc.vemser.pessoaapi.dto.LoginDTO;
+import br.com.dbc.vemser.pessoaapi.dto.UsuarioDTO;
 import br.com.dbc.vemser.pessoaapi.entity.Usuario;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.security.TokenService;
 import br.com.dbc.vemser.pessoaapi.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,8 +19,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -48,5 +47,14 @@ public class AuthController {
     public ResponseEntity<Usuario> logged(){
         log.debug("Usuario logado");
         return new ResponseEntity<>(usuarioService.usuarioLogado(),HttpStatus.OK);
+    }
+
+    @PostMapping("/criar-usuario")
+    public ResponseEntity<UsuarioDTO> create(@RequestBody UsuarioCreateDTO usuario) throws Exception {
+        log.debug("Criando contato");
+
+        UsuarioDTO usuarioCriado = usuarioService.create(usuario);
+        log.debug("contato criado!");
+        return new ResponseEntity<>(usuarioCriado, HttpStatus.OK);
     }
 }

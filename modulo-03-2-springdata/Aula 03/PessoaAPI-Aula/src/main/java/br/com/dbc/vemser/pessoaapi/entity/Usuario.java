@@ -33,11 +33,11 @@ public class Usuario implements UserDetails {
             joinColumns = @JoinColumn(name = "ID_USUARIO"),
             inverseJoinColumns = @JoinColumn(name = "ID_CARGO")
     )
-    private Set<CargoEntity> cargos;
+    private Set<Cargo> cargos;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return cargos;
     }
 
     @Override
